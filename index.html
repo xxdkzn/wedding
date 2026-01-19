@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Wedding Invitation | Idar & Dana</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #e4dccf;
+            --bg-soft: #f3eee5;
+            --gold: #b7955e;
+            --text-main: #2b2721;
+            --text-muted: #6f675c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        section {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            text-align: center;
+        }
+
+        /* ===== ПЛАВНОЕ ПОЯВЛЕНИЕ ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(4px);
+            transition: 1.2s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: url("background.png") center center no-repeat;
+            background-size: contain; 
+            background-color: var(--bg-main);
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(228,220,207,0) 60%,
+                rgba(228,220,207,0.95) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* ===== INVITE & NAMES ===== */
+        .invite {
+            background: linear-gradient(180deg, var(--bg-main), var(--bg-soft));
+        }
+
+        /* Стили для имен Idar & Dana */
+        .names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 82px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .names span {
+            color: var(--gold);
+            font-size: 60px;
+            margin: 0 10px;
+        }
+
+        .invite .script {
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .invite h2 {
+            font-family: 'Cormorant SC', serif;
+            font-size: 38px;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .invite p {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 auto 40px;
+            line-height: 1.9;
+        }
+
+        .date {
+            font-family: 'Cormorant SC', serif;
+            font-size: 32px;
+            letter-spacing: 6px;
+            margin-bottom: 50px;
+            color: var(--gold);
+        }
+
+        /* ===== ТАЙМЕР ===== */
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: rgba(255,255,255,0.6);
+            border-radius: 15px;
+            padding: 20px 15px;
+            min-width: 85px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(183,149,94,0.2);
+        }
+
+        .time-box span {
+            display: block;
+            font-family: 'Cormorant SC', serif;
+            font-size: 32px;
+            color: var(--gold);
+        }
+
+        .time-box small {
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* ===== LOCATION ===== */
+        .location-card {
+            background: var(--bg-soft);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 35px 70px rgba(0,0,0,0.12);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .location img {
+            width: 100%;
+            display: block;
+        }
+
+        .location-info {
+            padding: 40px 20px;
+        }
+
+        .restaurant-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 62px;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .restaurant-sub {
+            font-family: 'Cormorant SC', serif;
+            letter-spacing: 4px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .address-box {
+            border: 1px solid rgba(183,149,94,0.8);
+            border-radius: 20px;
+            padding: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            color: inherit;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .address-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* ===== КНОПКА МУЗЫКИ ===== */
+        .music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+
+        .music-control.paused {
+            opacity: 0.8;
+            filter: grayscale(0.8);
+        }
+
+        .music-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .music-control.playing {
+            animation: rotate 5s linear infinite;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 768px) {
+            .names { font-size: 64px; }
+            .names span { font-size: 48px; }
+            .invite .script { font-size: 38px; }
+            .invite h2 { font-size: 28px; }
+            section { padding: 60px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<audio id="bg-music" src="music.mp3" loop preload="auto"></audio>
+
+<div id="music-btn" class="music-control paused">
+    <svg class="music-icon" viewBox="0 0 24 24">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+    </svg>
+</div>
+
+<section class="hero"></section>
+
+<section class="invite">
+    <div class="container reveal">
+        <div class="names">Idar <span>&</span> Dana</div>
+        
+        <div class="script">Wedding Day</div>
+        <h2>ПРИГЛАШЕНИЕ</h2>
+
+        <p>
+            Мы будем счастливы разделить с вами самый тёплый
+            и важный день нашей жизни.
+        </p>
+
+        <div class="date">11 · 07 · 2026</div>
+
+        <div class="timer">
+            <div class="time-box"><span id="days">0</span><small>дней</small></div>
+            <div class="time-box"><span id="hours">0</span><small>часов</small></div>
+            <div class="time-box"><span id="minutes">0</span><small>минут</small></div>
+            <div class="time-box"><span id="seconds">0</span><small>секунд</small></div>
+        </div>
+    </div>
+</section>
+
+<section class="location">
+    <div class="container reveal">
+        <div class="location-card">
+            <img src="restaurant.png" alt="Ресторан Ридада">
+            <div class="location-info">
+                <div class="restaurant-name">Ридада</div>
+                <div class="restaurant-sub">РЕСТОРАН</div>
+
+                <a href="https://yandex.ru/navi/?text=г. Нальчик, курортный посёлок Вольный Аул, ул. 2-й Таманской Дивизии, д. 7" 
+                   target="_blank" class="address-box">
+                    <p>
+                        г. Нальчик<br>
+                        курортный посёлок Вольный Аул<br>
+                        ул. 2-й Таманской Дивизии, д. 7
+                    </p>
+                    <span>ПОСТРОИТЬ МАРШРУТ</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+/* ===== ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ ===== */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+    });
+}, { threshold: 0.15 });
+reveals.forEach(el => observer.observe(el));
+
+/* ===== ЛОГИКА ТАЙМЕРА ===== */
+const weddingDate = new Date("2026-07-11T18:00:00").getTime();
+function updateTimer() {
+    const now = new Date().getTime();
+    const diff = weddingDate - now;
+
+    if (diff > 0) {
+        document.getElementById("days").textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById("hours").textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById("minutes").textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById("seconds").textContent = Math.floor((diff % (1000 * 60)) / 1000);
+    }
+}
+setInterval(updateTimer, 1000);
+updateTimer();
+
+/* ===== ЛОГИКА МУЗЫКИ ===== */
+const music = document.getElementById("bg-music");
+const musicBtn = document.getElementById("music-btn");
+let isPlaying = false;
+
+function playAudio() {
+    if (!isPlaying) {
+        music.volume = 0.5;
+        music.play().then(() => {
+            isPlaying = true;
+            musicBtn.classList.add('playing');
+            musicBtn.classList.remove('paused');
+            removeStartListeners();
+        }).catch(err => console.log("Waiting for interaction..."));
+    }
+}
+
+function toggleMusic(e) {
+    e.stopPropagation();
+    if (isPlaying) {
+        music.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.classList.add('paused');
+    } else {
+        music.play();
+        musicBtn.classList.add('playing');
+        musicBtn.classList.remove('paused');
+    }
+    isPlaying = !isPlaying;
+}
+
+function removeStartListeners() {
+    document.removeEventListener('click', playAudio);
+    document.removeEventListener('touchstart', playAudio);
+    document.removeEventListener('scroll', playAudio);
+}
+
+musicBtn.addEventListener('click', toggleMusic);
+document.addEventListener('click', playAudio);
+document.addEventListener('touchstart', playAudio);
+document.addEventListener('scroll', playAudio, { passive: true });
+</script>
+
+</body>
+</html>
